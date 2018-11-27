@@ -7,7 +7,7 @@
   $message = trim($_POST["con_message"]);
 
   $from = new SendGrid\Email(null, $email);
-  $subject = "Name: " + $name ;
+  $subject = "Name: $name";
   $to = new SendGrid\Email(null, "oliverpople@gmail.com");
   $content = new SendGrid\Content("text/plain",  $message);
   $mail = new SendGrid\Mail($from, $subject, $to, $content);
