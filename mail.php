@@ -1,10 +1,13 @@
 <?php
 require 'vendor/autoload.php';
 
-      $from = new SendGrid\Email(null, "test@testexmaple.com");
+$email = filter_var(trim($_POST["con_email"]), FILTER_SANITIZE_EMAIL);
+$message = trim($_POST["con_message"]);
+
+      $from = new SendGrid\Email(null, $email);
       $subject = "Hello World from the SendGrid PHP Library!";
       $to = new SendGrid\Email(null, "oliverpople@gmail.com");
-      $content = new SendGrid\Content("text/plain",  "Test content message");
+      $content = new SendGrid\Content("text/plain",  $message);
       $mail = new SendGrid\Mail($from, $subject, $to, $content);
 
       $apiKey = getenv('SENDGRID_API_KEY');
