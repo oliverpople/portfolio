@@ -1,22 +1,27 @@
 <?php
-require 'vendor/autoload.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-$email = filter_var(trim($_POST["con_email"]), FILTER_SANITIZE_EMAIL);
-$message = trim($_POST["con_message"]);
+  require 'vendor/autoload.php';
 
-      $from = new SendGrid\Email(null, $email);
-      $subject = "Hello World from the SendGrid PHP Library!";
-      $to = new SendGrid\Email(null, "oliverpople@gmail.com");
-      $content = new SendGrid\Content("text/plain",  $message);
-      $mail = new SendGrid\Mail($from, $subject, $to, $content);
+  $name = strip_tags(trim($_POST["con_name"]));
+  $name = str_replace(array("\r","\n"),array(" "," "),$name);
+  $email = filter_var(trim($_POST["con_email"]), FILTER_SANITIZE_EMAIL);
+  $message = trim($_POST["con_message"]);
 
-      $apiKey = getenv('SENDGRID_API_KEY');
-      $sg = new \SendGrid($apiKey);
+  $from = new SendGrid\Email(null, $email);
+  $subject = "Name: " + $name ;
+  $to = new SendGrid\Email(null, "oliverpople@gmail.com");
+  $content = new SendGrid\Content("text/plain",  $message);
+  $mail = new SendGrid\Mail($from, $subject, $to, $content);
 
-      $response = $sg->client->mail()->send()->post($mail);
-      echo $response->statusCode();
-      echo $response->headers();
-      echo $response->body();
+  $apiKey = getenv('SENDGRID_API_KEY');
+  $sg = new \SendGrid($apiKey);
+
+  $response = $sg->client->mail()->send()->post($mail);
+  echo $response->statusCode();
+  echo $response->headers();
+  echo $response->body();
+   echo "Thank You! Your message has been sent.";
 
     // Only process POST reqeusts.
         // if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -57,16 +62,16 @@ $message = trim($_POST["con_message"]);
         //     // Set a 200 (okay) response code.
         //     http_response_code(200);
         //     echo "Thank You! Your message has been sent.";
-    //     } else {
-    //         // Set a 500 (internal server error) response code.
-    //         http_response_code(500);
-    //         echo "Oops! Something went wrong and we couldn't send your message.";
-    //     }
-    //
-    // } else {
-    //     // Not a POST request, set a 403 (forbidden) response code.
-    //     http_response_code(403);
-    //     echo "There was a problem with your submission, please try again.";
-    // }
+        } else {
+            // Set a 500 (internal server error) response code.
+            http_response_code(500);
+            echo "Oops! Something went wrong and we couldn't send your message.";
+        }
+
+    } else {
+        // Not a POST request, set a 403 (forbidden) response code.
+        http_response_code(403);
+        echo "There was a problem with your submission, please try again.";
+    }
 
 ?>
