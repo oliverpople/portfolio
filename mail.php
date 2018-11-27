@@ -4,10 +4,13 @@ require 'vendor/autoload.php';
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-      $from = new SendGrid\Email(null, "test@example.com");
+      $email = filter_var(trim($_POST["con_email"]), FILTER_SANITIZE_EMAIL);
+      $message = trim($_POST["con_message"]);
+
+      $from = new SendGrid\Email(null, $email);
       $subject = "Hello World from the SendGrid PHP Library!";
       $to = new SendGrid\Email(null, "oliverpople@gmail.com");
-      $content = new SendGrid\Content("text/plain", "Hello, Email!");
+      $content = new SendGrid\Content("text/plain",   $message);
       $mail = new SendGrid\Mail($from, $subject, $to, $content);
 
       $apiKey = getenv('SENDGRID_API_KEY');
