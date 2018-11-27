@@ -7,6 +7,9 @@ require 'vendor/autoload.php';
       $email = filter_var(trim($_POST["con_email"]), FILTER_SANITIZE_EMAIL);
       $message = trim($_POST["con_message"]);
 
+      console.log($email)
+      console.log($message)
+
       $from = new SendGrid\Email(null, $email);
       $subject = "Hello World from the SendGrid PHP Library!";
       $to = new SendGrid\Email(null, "oliverpople@gmail.com");
