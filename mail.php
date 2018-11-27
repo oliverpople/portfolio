@@ -1,19 +1,10 @@
 <?php
 require 'vendor/autoload.php';
-    // Only process POST reqeusts.
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-
-      $email = filter_var(trim($_POST["con_email"]), FILTER_SANITIZE_EMAIL);
-      $message = trim($_POST["con_message"]);
-
-      console.log($email)
-      console.log($message)
-
-      $from = new SendGrid\Email(null, $email);
+      $from = new SendGrid\Email(null, "test@testexmaple.com");
       $subject = "Hello World from the SendGrid PHP Library!";
       $to = new SendGrid\Email(null, "oliverpople@gmail.com");
-      $content = new SendGrid\Content("text/plain",   $message);
+      $content = new SendGrid\Content("text/plain",  "Test content message");
       $mail = new SendGrid\Mail($from, $subject, $to, $content);
 
       $apiKey = getenv('SENDGRID_API_KEY');
@@ -24,9 +15,8 @@ require 'vendor/autoload.php';
       echo $response->headers();
       echo $response->body();
 
-
-
-
+    // Only process POST reqeusts.
+        // if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //
         // // Get the form fields and remove whitespace.
         //
@@ -64,16 +54,16 @@ require 'vendor/autoload.php';
         //     // Set a 200 (okay) response code.
         //     http_response_code(200);
         //     echo "Thank You! Your message has been sent.";
-        } else {
-            // Set a 500 (internal server error) response code.
-            http_response_code(500);
-            echo "Oops! Something went wrong and we couldn't send your message.";
-        }
-
-    } else {
-        // Not a POST request, set a 403 (forbidden) response code.
-        http_response_code(403);
-        echo "There was a problem with your submission, please try again.";
-    }
+    //     } else {
+    //         // Set a 500 (internal server error) response code.
+    //         http_response_code(500);
+    //         echo "Oops! Something went wrong and we couldn't send your message.";
+    //     }
+    //
+    // } else {
+    //     // Not a POST request, set a 403 (forbidden) response code.
+    //     http_response_code(403);
+    //     echo "There was a problem with your submission, please try again.";
+    // }
 
 ?>
